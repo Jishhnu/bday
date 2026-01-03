@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Birthday Cake - Happy Birthday Minnu</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@700&display=swap');
+
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .cake {
+      position: relative;
+      width: 300px;
+      height: 200px;
+      margin: 0 auto;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .cake:hover {
+      transform: scale(1.05);
+    }
+
+    .cake-layer {
+      position: absolute;
+      border-radius: 50% 50% 0 0;
+      background: linear-gradient(to bottom, #f8c291, #e55039);
+    }
+
+    .cake-layer:nth-child(1) {
+      width: 300px;
+      height: 80px;
+      bottom: 0;
+      background: linear-gradient(to bottom, #f8c291, #e55039);
+    }
+
+    .cake-layer:nth-child(2) {
+      width: 250px;
+      height: 60px;
+      bottom: 80px;
+      left: 25px;
+      background: linear-gradient(to bottom, #f7dc6f, #f1c40f);
+    }
+
+    .cake-layer:nth-child(3) {
+      width: 200px;
+      height: 40px;
+      bottom: 140px;
+      left: 50px;
+      background: linear-gradient(to bottom, #f8c291, #e55039);
+    }
+
+    .icing {
+      position: absolute;
+      width: 320px;
+      height: 20px;
+      bottom: 180px;
+      left: -10px;
+      background: linear-gradient(to bottom, #fff, #f8f9fa);
+      border-radius: 50% 50% 0 0;
+    }
+
+    .candle {
+      position: absolute;
+      width: 8px;
+      height: 60px;
+      background: linear-gradient(to bottom, #fff, #f8f9fa);
+      bottom: 200px;
+      border-radius: 4px 4px 0 0;
+    }
+
+    .candle:nth-child(1) { left: 140px; }
+    .candle:nth-child(2) { left: 155px; }
+    .candle:nth-child(3) { left: 170px; }
+    .candle:nth-child(4) { left: 185px; }
+    .candle:nth-child(5) { left: 200px; }
+
+    .flame {
+      position: absolute;
+      width: 6px;
+      height: 20px;
+      background: linear-gradient(to top, #ff6b35, #ffa500);
+      bottom: 260px;
+      left: 143px;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      animation: flicker 0.5s infinite alternate;
+    }
+
+    .flame:nth-child(2) { left: 158px; animation-delay: 0.1s; }
+    .flame:nth-child(3) { left: 173px; animation-delay: 0.2s; }
+    .flame:nth-child(4) { left: 188px; animation-delay: 0.3s; }
+    .flame:nth-child(5) { left: 203px; animation-delay: 0.4s; }
+
+    @keyframes flicker {
+      0% { transform: scaleY(1) scaleX(1); opacity: 1; }
+      100% { transform: scaleY(0.8) scaleX(1.2); opacity: 0.8; }
+    }
+
+    .cake-text {
+      font-family: 'Dancing Script', cursive;
+      background: linear-gradient(90deg, #ffd700, #ffed4e, #ffd700);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+      to { text-shadow: 0 0 30px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 215, 0, 0.6); }
+    }
+
+    .blow-button {
+      background: linear-gradient(45deg, #ff6b6b, #ffa500);
+      border: none;
+      color: white;
+      padding: 15px 30px;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+    }
+
+    .blow-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+    }
+
+    .celebration {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: #ffd700;
+      border-radius: 50%;
+      animation: sparkle 1s ease-out forwards;
+    }
+
+    @keyframes sparkle {
+      0% { transform: scale(0); opacity: 1; }
+      100% { transform: scale(1); opacity: 0; }
+    }
+
+    .message {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 1s ease;
+    }
+
+    .message.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center h-screen w-screen">
+  <div class="text-center">
+    <h1 class="cake-text text-4xl md:text-6xl font-bold mb-8">Make a Wish & Blow Out the Candles! 🎂</h1>
+
+    <div class="cake mb-8" id="cake">
+      <div class="icing"></div>
+      <div class="cake-layer"></div>
+      <div class="cake-layer"></div>
+      <div class="cake-layer"></div>
+      <div class="candle"></div>
+      <div class="candle"></div>
+      <div class="candle"></div>
+      <div class="candle"></div>
+      <div class="candle"></div>
+      <div class="flame"></div>
+      <div class="flame"></div>
+      <div class="flame"></div>
+      <div class="flame"></div>
+      <div class="flame"></div>
+    </div>
+
+    <button class="blow-button mb-8" id="blowButton">Blow Out Candles! 💨</button>
+
+    <div class="message text-white text-xl md:text-2xl" id="message">
+      <p>Happy Birthday, Minnu! 🎉</p>
+      <p>May all your wishes come true! 🌟</p>
+      <p>Here's to another amazing year! 🥂</p>
+    </div>
+  </div>
+
+  <div class="celebration" id="celebration"></div>
+
+  <script>
+    const cake = document.getElementById('cake');
+    const blowButton = document.getElementById('blowButton');
+    const message = document.getElementById('message');
+    const celebration = document.getElementById('celebration');
+    const flames = document.querySelectorAll('.flame');
+
+    blowButton.addEventListener('click', () => {
+      // Hide flames
+      flames.forEach(flame => {
+        flame.style.opacity = '0';
+        flame.style.animation = 'none';
+      });
+
+      // Create sparkles
+      for (let i = 0; i < 50; i++) {
+        setTimeout(() => {
+          const sparkle = document.createElement('div');
+          sparkle.classList.add('sparkle');
+          sparkle.style.left = Math.random() * 100 + '%';
+          sparkle.style.top = Math.random() * 100 + '%';
+          sparkle.style.animationDelay = Math.random() * 0.5 + 's';
+          celebration.appendChild(sparkle);
+
+          setTimeout(() => sparkle.remove(), 1000);
+        }, i * 20);
+      }
+
+      // Show message
+      setTimeout(() => {
+        message.classList.add('show');
+      }, 500);
+
+      // Change button text
+      blowButton.textContent = 'Candles Blown Out! ✨';
+      blowButton.disabled = true;
+      blowButton.style.opacity = '0.7';
+    });
+
+    // Add some initial animation
+    gsap.from('.cake', { duration: 1, y: 50, opacity: 0, ease: 'bounce' });
+    gsap.from('.cake-text', { duration: 1, scale: 0.5, opacity: 0, delay: 0.5 });
+    gsap.from('#blowButton', { duration: 1, y: 30, opacity: 0, delay: 1 });
+  </script>
+</body>
+</html>
